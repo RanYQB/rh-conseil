@@ -40,6 +40,9 @@ class Offer
     private ?\DateTimeImmutable $published_at = null;
 
     #[ORM\Column]
+    private ?bool $published = null;
+
+    #[ORM\Column]
     private ?bool $closed = null;
 
     #[ORM\ManyToOne(inversedBy: 'offers')]
@@ -55,6 +58,7 @@ class Offer
     public function __construct()
     {
         $this->applications = new ArrayCollection();
+        $this->created_at = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -154,6 +158,18 @@ class Offer
     public function setClosed(bool $closed): self
     {
         $this->closed = $closed;
+
+        return $this;
+    }
+
+    public function isPublished(): ?bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): self
+    {
+        $this->published = $published;
 
         return $this;
     }

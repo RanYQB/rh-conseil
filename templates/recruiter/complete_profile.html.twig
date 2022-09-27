@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RH Conseil - Compléter le profil{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Compléter le profil de l'entreprise</h1>
+    {{ form_start(recruiter_form) }}
+        {{ form_row(recruiter_form.name) }}
+        {{ form_row(recruiter_form.address) }}
+        {{ form_row(recruiter_form.zipcode) }}
+        {{ form_row(recruiter_form.city) }}
+        <button type="submit">Enregistrer</button>
+    {{ form_end(recruiter_form) }}
+</div>
+{% endblock %}

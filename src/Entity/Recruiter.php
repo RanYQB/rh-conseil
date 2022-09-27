@@ -27,7 +27,7 @@ class Recruiter
     #[ORM\Column(length: 150)]
     private ?string $city = null;
 
-    #[ORM\OneToOne(inversedBy: 'recruiter', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
