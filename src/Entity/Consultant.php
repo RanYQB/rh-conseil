@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\CivilityTrait;
 use App\Repository\ConsultantRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConsultantRepository::class)]
 class Consultant
 {
+    use CivilityTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -14,32 +14,12 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class RegistrationFormType extends AbstractType
+class ConsultantUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email', EmailType::class)
-            ->add('role', ChoiceType::class, [
-                'label' => 'Vous êtes...',
-                'mapped' => false,
-                'expanded' => true,
-                'multiple' => false,
-                'choices' => [
-                    'candidat' => 'ROLE_CANDIDATE',
-                    'recruteur' => 'ROLE_RECRUITER',
-                ],
-
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'label' => 'J\'accepte les conditions',
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Vous devez acceptez les conditions d\'utilisation',
-                    ]),
-                ],
-            ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller

@@ -11,7 +11,7 @@ class RecruiterController extends AbstractController
     #[Route('/recruiter', name: 'app_recruiter')]
     public function index(): Response
     {
-        return $this->render('recruiter/index.html.twig', [
+        return $this->render('recruiter/admin.html.twig', [
             'controller_name' => 'RecruiterController',
         ]);
     }

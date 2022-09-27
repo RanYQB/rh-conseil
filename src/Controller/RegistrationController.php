@@ -29,11 +29,18 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $user->setActive(false);
+            $role = $form->get('role')->getData();
+            if($role === 'ROLE_RECRUITER'){
+                $user->setRoles(array('ROLE_RECRUITER'));
+            } elseif ($role === 'ROLE_CANDIDATE'){
+                $user->setRoles(array('ROLE_CANDIDATE'));
+            }
 
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
-
+            $this->addFlash('success', 'Votre compte a bien été créé.');
             return $this->redirectToRoute('app_login');
         }
 

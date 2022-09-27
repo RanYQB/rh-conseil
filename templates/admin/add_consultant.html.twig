@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RH Conseil - Nouveau consultant{% endblock %}
+
+{% block body %}
+
+
+<div class="example-wrapper">
+    <h1>Nouveau consultant</h1>
+        {{ form_start(consultant_form) }}
+        {{ form_row(consultant_form.consultant.civility) }}
+        {{ form_row(consultant_form.consultant.lastname) }}
+        {{ form_row(consultant_form.consultant.firstname) }}
+        {{ form_row(consultant_form.user.email) }}
+        {{ form_row(consultant_form.user.plainPassword, {
+            label: 'Mot de passe '
+        }) }}
+        <button type="submit">Créer nouveau consultant</button>
+    {{ form_end(consultant_form) }}
+
+</div>
+{% endblock %}
