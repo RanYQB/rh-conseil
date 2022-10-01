@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/candidate', name: 'app_candidate')]
+#[Route('/candidat', name: 'app_candidate')]
 class CandidateController extends AbstractController
 {
     #[Route('/', name: '')]
