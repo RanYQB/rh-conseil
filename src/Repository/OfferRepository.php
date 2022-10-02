@@ -39,6 +39,18 @@ class OfferRepository extends ServiceEntityRepository
         }
     }
 
+    public function showUnpublished(){
+        $query = $this->createQueryBuilder('o');
+
+        $query->select('o')
+            ->where('o.published = 0')
+            ->andWhere('o.closed = 0')
+            ->orderBy('o.created_at');
+
+        return $query->getQuery()->getResult();
+    }
+
+
 //    /**
 //     * @return Offer[] Returns an array of Offer objects
 //     */

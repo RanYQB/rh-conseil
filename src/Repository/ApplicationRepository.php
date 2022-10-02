@@ -39,6 +39,18 @@ class ApplicationRepository extends ServiceEntityRepository
         }
     }
 
+    public function showUnsent(){
+        $query = $this->createQueryBuilder('a');
+
+        $query->select('a')
+            ->where('a.sent = 0')
+            ->andWhere('a.approved IS NULL')
+            ->orderBy('a.created_at');
+
+        return $query->getQuery()->getResult();
+    }
+
+
 //    /**
 //     * @return Application[] Returns an array of Application objects
 //     */

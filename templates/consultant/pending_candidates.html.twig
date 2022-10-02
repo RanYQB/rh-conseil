@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RH Conseil - Candidats en attente de validation{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Candidats en attente de validation</h1>
+    {% for candidate in candidates %}
+        <div>
+            <p>{{ candidate.civility }} {{ candidate.lastname }} {{ candidate.firstname }}</p>
+            <a href="{{ asset(candidate.resume.path) }}" target="_blank">Voir le CV</a>
+            <a href="{{ path('app_consultant_validate_profile', {id: candidate.user.id }) }}">Valider le compte du candidat</a>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+{% endblock %}

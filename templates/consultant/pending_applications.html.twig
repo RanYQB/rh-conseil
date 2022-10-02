@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RH Conseil - Candidature en attente de traitement{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Candidature en attente de traitement</h1>
+    {% for application in applications %}
+        <div>
+            <h2>{{ application.candidate.lastname }} {{ application.candidate.firstname }} - {{ application.candidate.title }}</h2>
+            <p>a postulé à l'offre de l'entreprise {{ application.offer.recruiter.name }}</p>
+            <p>Poste à pourvoir : {{ application.offer.title }}</p>
+            <a href="{{ asset(application.candidate.resume.path) }}" target="_blank">Voir le CV du candidat</a>
+
+            <a href="{{ path('app_consultant_validate_application', {id: application.id }) }}">Transmettre la candidature</a>
+            <a href="{{ path('app_consultant_decline_application', {id: application.id }) }}">Refuser la candidature</a>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RH Conseil - Offres d'emploi en attente de publication{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Offres d'emploi en attente de publication</h1>
+    {% for offer in offers %}
+        <div>
+            <h2>{{ offer.title }}</h2>
+            <p>Nom de l'entreprise : {{ offer.recruiter.name }}</p>
+            <p>{{ offer.description }}</p>
+            <p>Type de contrat : {{ offer.contratType }}</p>
+            <p>Salaire : {{ offer.salary }} €</p>
+            <p>Nombre de postes à pourvoir : {{ offer.positions }}</p>
+
+            <a href="{{ path('app_consultant_validate_offer', {id: offer.id }) }}">Publier l'offre d'emploi</a>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

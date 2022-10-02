@@ -35,12 +35,17 @@ class RecruiterController extends AbstractController
             if (!$recruiter) {
                 return $this->redirectToRoute('app_recruiter_complete_profile');
             }
+
+            if($recruiter->getUser()->isActive() == false){
+                return $this->redirectToRoute('app_user_pending');
+            }
         }
 
         return $this->render('recruiter/recruiter.html.twig', [
             'controller_name' => 'RecruiterController',
         ]);
     }
+
 
     #[Route('/nouvelle-offre', name: '_add_offer')]
     public function addOffer(RecruiterRepository $recruiterRepository, Request $request, EntityManagerInterface $entityManager,): Response
@@ -64,9 +69,11 @@ class RecruiterController extends AbstractController
                 $offer->setPublished(false);
                 $offer->setClosed(false);
                 $offer->setSlug($this->slugger->slug($offer->getTitle())->lower());
+                $city = $form->get('city')->getData();
+                $offer->setCity($city);
                 $entityManager->persist($offer);
                 $entityManager->flush();
-                $this->addFlash('success', 'Votre profil a bien été complété.');
+                $this->addFlash('success', 'Votre offre a bien été enregistrée.');
                 return $this->redirectToRoute('app_recruiter');
 
             }
@@ -98,6 +105,8 @@ class RecruiterController extends AbstractController
             if($form->isSubmitted() && $form->isValid()) {
 
                 $recruiter->setUser($user);
+                $city = $form->get('city')->getData();
+                $recruiter->setCity($city);
                 $entityManager->persist($recruiter);
                 $entityManager->flush();
                 $this->addFlash('success', 'Votre profil a bien été complété.');

@@ -39,6 +39,17 @@ class CandidateRepository extends ServiceEntityRepository
         }
     }
 
+    public function showPending(){
+        $query = $this->createQueryBuilder('c');
+
+        $query->select('c', 'u')
+            ->innerJoin('c.user', 'u')
+            ->where('u.active = 0')
+            ->orderBy('c.lastname');
+
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Candidate[] Returns an array of Candidate objects
 //     */
