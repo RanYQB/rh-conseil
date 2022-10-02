@@ -7,10 +7,11 @@
 <div class="example-wrapper">
     <h1>Compléter le profil de candidat</h1>
     {{ form_start(candidate_form) }}
-        {{ form_row(candidate_form.civility) }}
-        {{ form_row(candidate_form.lastname) }}
-        {{ form_row(candidate_form.firstname) }}
-        {{ form_row(candidate_form.title) }}
+        {{ form_row(candidate_form.candidate.civility) }}
+        {{ form_row(candidate_form.candidate.lastname) }}
+        {{ form_row(candidate_form.candidate.firstname) }}
+        {{ form_row(candidate_form.candidate.title) }}
+        {{ form_row(candidate_form.resume.name) }}
         <button type="submit">Enregistrer</button>
     {{ form_end(candidate_form) }}
 </div>
