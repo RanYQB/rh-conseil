@@ -21,11 +21,6 @@ class Recruiter
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 5)]
-    private ?string $zipcode = null;
-
-    #[ORM\Column(length: 150)]
-    private ?string $city = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -33,6 +28,10 @@ class Recruiter
 
     #[ORM\OneToMany(mappedBy: 'recruiter', targetEntity: Offer::class, orphanRemoval: true)]
     private Collection $offers;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?City $city = null;
 
     public function __construct()
     {
@@ -68,29 +67,6 @@ class Recruiter
         return $this;
     }
 
-    public function getZipcode(): ?string
-    {
-        return $this->zipcode;
-    }
-
-    public function setZipcode(string $zipcode): self
-    {
-        $this->zipcode = $zipcode;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -130,6 +106,18 @@ class Recruiter
                 $offer->setRecruiter(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

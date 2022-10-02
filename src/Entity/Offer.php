@@ -24,9 +24,6 @@ class Offer
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 150)]
-    private ?string $location = null;
-
     #[ORM\Column]
     private ?int $salary = null;
 
@@ -54,6 +51,10 @@ class Offer
 
     #[ORM\Column]
     private ?int $positions = null;
+
+    #[ORM\ManyToOne(inversedBy: 'offers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?City $City = null;
 
     public function __construct()
     {
@@ -90,17 +91,6 @@ class Offer
         return $this;
     }
 
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(string $location): self
-    {
-        $this->location = $location;
-
-        return $this;
-    }
 
     public function getSalary(): ?int
     {
@@ -224,6 +214,18 @@ class Offer
     public function setPositions(int $positions): self
     {
         $this->positions = $positions;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->City;
+    }
+
+    public function setCity(?City $City): self
+    {
+        $this->City = $City;
 
         return $this;
     }

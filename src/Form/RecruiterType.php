@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\City;
 use App\Entity\Recruiter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,12 +22,36 @@ class RecruiterType extends AbstractType
             ->add('address', TextType::class, [
                 'label' => 'Adresse'
             ])
-            ->add('zipcode', NumberType::class, [
-                'label' => 'Code postal'
-            ])
-            ->add('city', TextType::class, [
-                'label' => 'Ville'
-            ])
+            ->add('zipcode', EntityType::class, [
+                    'mapped' => false,
+                    'class' => City::class,
+                    'choice_label' => 'zipcode',
+                    'placeholder' => '75001',
+                    'autocomplete' => true,
+                    'label' => 'Code postal',
+                    'label_attr' => [
+                        'class' => 'col-sm-2 col-form-label',
+                    ],
+                    'attr' => [
+                        'class' => ''
+                    ],
+                ]
+            )
+            ->add('city', EntityType::class, [
+                    'mapped' => false,
+                    'class' => City::class,
+                    'choice_label' => 'name',
+                    'placeholder' => 'Paris 1',
+                    'autocomplete' => true,
+                    'label' => 'Commune',
+                    'label_attr' => [
+                        'class' => 'col-sm-2 col-form-label',
+                    ],
+                    'attr' => [
+                        'class' => ''
+                    ],
+                ]
+            );
         ;
     }
 
