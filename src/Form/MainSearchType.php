@@ -16,7 +16,9 @@ class MainSearchType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                     'label' => 'Quoi',
-                    'placeholder' => 'mots-clés '
+                    'attr' => [
+                        'placeholder' => 'mots-clés ',
+                    ]
             ] )
             ->add('city', EntityType::class, [
                     'mapped' => false,
