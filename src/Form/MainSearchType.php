@@ -24,7 +24,7 @@ class MainSearchType extends AbstractType
                     'mapped' => false,
                     'class' => City::class,
                     'choice_label' => 'name',
-                    'placeholder' => 'Paris 1',
+                    'placeholder' => 'Paris 01',
                     'autocomplete' => true,
                     'label' => 'Où',
                     'label_attr' => [

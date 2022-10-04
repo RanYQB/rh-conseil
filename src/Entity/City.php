@@ -2,12 +2,27 @@
 
 namespace App\Entity;
 
+
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\CityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CityRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()],
+    normalizationContext: ['groups' => ['read']],
+    order: ['name' => 'ASC'],
+    paginationEnabled: false)]
+#[ApiFilter(SearchFilter::class, properties: ['label' => 'start'])]
 class City
 {
     #[ORM\Id]
@@ -19,6 +34,7 @@ class City
     private ?string $name = null;
 
     #[ORM\Column(length: 5)]
+    #[Groups('read')]
     private ?string $zipcode = null;
 
     #[ORM\Column(length: 5)]
@@ -31,6 +47,7 @@ class City
     private ?string $longitude = null;
 
     #[ORM\Column(length: 200)]
+    #[Groups('read')]
     private ?string $label = null;
 
     #[ORM\ManyToOne(inversedBy: 'cities')]

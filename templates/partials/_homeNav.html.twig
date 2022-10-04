@@ -1,12 +1,13 @@
 <nav id="home-nav">
-    <a  href="#">Navbar</a>
+    <a id="home-page-logo" href="#"><img src="{{ asset('logo-rh.png') }}" alt="logo">
+        Conseil</a>
     <div>
-        <ul>
-            <li>
-                <a>navlink</a>
+        <ul id="home-page-nav-ul">
+            <li class="create-account-link">
+                <a href="{{ path('app_register') }}">Créer un compte</a>
             </li>
-            <li>
-                <a>navlink</a>
+            <li class="login-link">
+                <a href="{{ path('app_login') }}">Se connecter</a>
             </li>
             </ul>
         </div>

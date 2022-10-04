@@ -4,13 +4,17 @@
 
 {% block body %}
 
-
-<div class="example-wrapper">
-    <h1>RH Conseil</h1>
-    {{ form_start(search_form) }}
+<div id="home-page">
+    {% include 'partials/_homeNav.html.twig' %}
+    <div id="home-search">
+{#  {{ form_start(search_form) }}
     {{ form_row(search_form.title) }}
     {{ form_row(search_form.city) }}
     <button type="submit">Rechercher</button>
-    {{ form_end(search_form) }}
+    {{ form_end(search_form) }}#}
+        <city-field></city-field>
+    </div>
+
+
 </div>
 {% endblock %}
