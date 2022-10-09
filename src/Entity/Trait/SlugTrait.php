@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait SlugTrait
 {
+
+    #[Groups('read')]
     #[ORM\Column(type: 'string' , length: 255)]
     private $slug;
 

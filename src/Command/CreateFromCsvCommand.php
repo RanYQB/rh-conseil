@@ -3,11 +3,7 @@
 namespace App\Command;
 
 use App\Entity\City;
-use App\Entity\Department;
-use App\Entity\Region;
 use App\Repository\CityRepository;
-use App\Repository\DepartmentRepository;
-use App\Repository\RegionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -17,6 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -30,23 +27,19 @@ class CreateFromCsvCommand extends Command
     private EntityManagerInterface $entityManager;
     private string $dataDirectory;
     private CityRepository $cityRepository;
-    private DepartmentRepository $departmentRepository;
-    private RegionRepository $regionRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         string $dataDirectory,
         CityRepository $cityRepository,
-        DepartmentRepository $departmentRepository,
-        RegionRepository $regionRepository
     )
+
     {
         parent::__construct();
         $this->dataDirectory = $dataDirectory;
         $this->entityManager = $entityManager;
         $this->cityRepository = $cityRepository;
-        $this->departmentRepository = $departmentRepository;
-        $this->regionRepository = $regionRepository;
+
     }
 
     protected function configure(): void
@@ -67,13 +60,13 @@ class CreateFromCsvCommand extends Command
 
     private function getDataFromFile(): array
     {
-        $file = $this->dataDirectory . 'cities.csv';
+        $file = $this->dataDirectory . 'villes_france.xml';
 
         $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
 
         $normalizer = new ObjectNormalizer();
 
-        $encoder = new CsvEncoder();
+        $encoder = new XmlEncoder();
 
         $serializer = new Serializer([$normalizer], [$encoder]);
 
@@ -84,74 +77,44 @@ class CreateFromCsvCommand extends Command
 
         $data = $serializer->decode($fileString, $fileExtension);
 
-        return $data;
+        return $data["database"]["table"];
 
     }
 
     private function createCities(): void
     {
-        $this->io->section('Import des données');
 
-        $citiesCreated = 0;
-        $departmentsCreated = 0;
-        $regionsCreated = 0;
+                $this->io->section('Import des données');
 
-        foreach($this->getDataFromFile() as $row)
-        {
-            if(array_key_exists('insee_code', $row) && !empty($row['insee_code'])){
-                $city = $this->cityRepository->findOneBy([
-                    'insee_code' => $row['insee_code']
-                ]);
+                $citiesCreated = 0;
 
-                $department = $this->departmentRepository->findOneBy([
-                    'number' => $row['department_number']
-                ]);
+                foreach($this->getDataFromFile() as $row)
+                {
+                    if( !empty($row["column"][2]["#"])){
+                        $city = $this->cityRepository->findOneBy([
+                            'label' => $row["column"][2]["#"]
+                        ]);
 
-                $region = $this->regionRepository->findOneBy([
-                    'name' => $row['region_geojson_name']
-                ]);
 
-                if(!$region){
-                    $region = new Region();
-                    $region->setName($row['region_geojson_name']);
+                        if(!$city){
+                            $city = new City();
+                            $city->setName($row["column"][5]["#"]);
+                            $city->setLabel($row["column"][2]["#"]);
+                            $city->setZipcode($row["column"][8]["#"]);
+                            $city->setLatitude($row["column"][20]["#"]);
+                            $city->setLongitude($row["column"][19]["#"]);
+                            $city->setDepartmentNumber($row["column"][1]["#"]);
+                            $city->setPopulation($row["column"][14]["#"]);
 
-                    $this->entityManager->persist($region);
+                            $this->entityManager->persist($city);
 
-                    $regionsCreated++;
-                }
-
-                if(!$department){
-                    $department = new Department();
-                    $department->setName($row['department_name']);
-                    $department->setNumber($row['department_number']);
-                    $department->setRegion($region);
-
-                    $this->entityManager->persist($department);
-
-                    $departmentsCreated++;
+                            $citiesCreated++;
+                        }
+                    }
 
                 }
+                $this->entityManager->flush();
+                $this->io->success("{$citiesCreated} VILLES CREES.");
 
-                if(!$city){
-                    $city = new City();
-                    $city->setName($row['city_code']);
-                    $city->setInseeCode($row['insee_code']);
-                    $city->setLabel($row['label']);
-                    $city->setZipcode($row['zip_code']);
-                    $city->setLatitude($row['latitude']);
-                    $city->setLongitude($row['longitude']);
-                    $city->setDepartment($department);
-
-                    $this->entityManager->persist($city);
-
-                    $citiesCreated++;
-                }
-            }
-
-            $this->entityManager->flush();
-
-        }
-
-        $this->io->success("{$regionsCreated} REGIONS, {$departmentsCreated} DEPARTEMENTS ET {$citiesCreated} VILLES CREES.");
     }
 }

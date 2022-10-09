@@ -2,37 +2,59 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Trait\SlugTrait;
 use App\Repository\OfferRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OfferRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()],
+    normalizationContext: ['groups' => ['read']],
+    order: ['published_at' => 'DESC'],
+    paginationEnabled: true)]
+#[ApiFilter(SearchFilter::class, properties: ['slug' => 'partial', 'City.label' => 'exact'])]
+#[ApiFilter(ExistsFilter::class, properties: ['published_at'])]
 class Offer
 {
     use SlugTrait;
 
+    #[Groups('read')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups('read')]
     #[ORM\Column(length: 150)]
     private ?string $title = null;
 
+    #[Groups('read')]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[Groups('read')]
     #[ORM\Column]
     private ?int $salary = null;
 
+    #[Groups('read')]
     #[ORM\Column(length: 3)]
     private ?string $contrat_type = null;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at = null;
 
+    #[Groups('read')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $published_at = null;
 
@@ -42,6 +64,7 @@ class Offer
     #[ORM\Column]
     private ?bool $closed = null;
 
+    #[Groups('read')]
     #[ORM\ManyToOne(inversedBy: 'offers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Recruiter $recruiter = null;
@@ -49,9 +72,11 @@ class Offer
     #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Application::class, orphanRemoval: true)]
     private Collection $applications;
 
+    #[Groups('read')]
     #[ORM\Column]
     private ?int $positions = null;
 
+    #[Groups('read')]
     #[ORM\ManyToOne(inversedBy: 'offers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?City $City = null;

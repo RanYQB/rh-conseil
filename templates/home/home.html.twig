@@ -6,15 +6,15 @@
 
 <div id="home-page">
     {% include 'partials/_homeNav.html.twig' %}
-    <div id="home-search">
-{#  {{ form_start(search_form) }}
-    {{ form_row(search_form.title) }}
-    {{ form_row(search_form.city) }}
-    <button type="submit">Rechercher</button>
-    {{ form_end(search_form) }}#}
-        <city-field></city-field>
+    <div id="home-content">
+        <div id="search-form">
+            <div id="home-search">
+                <search-offers ></search-offers>
+            </div>
+        </div>
+        <div id="content">
+            {% include 'partials/_homeContent.html.twig' %}
+        </div>
     </div>
-
-
 </div>
 {% endblock %}

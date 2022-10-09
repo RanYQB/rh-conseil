@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -20,8 +21,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(),
         new GetCollection()],
     normalizationContext: ['groups' => ['read']],
-    order: ['name' => 'ASC'],
+    order: ['population' => 'DESC'],
     paginationEnabled: false)]
+#[ApiFilter(OrderFilter::class, properties: ['population' => 'DESC'])]
 #[ApiFilter(SearchFilter::class, properties: ['label' => 'start'])]
 class City
 {
@@ -30,32 +32,37 @@ class City
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups('read')]
     #[ORM\Column(length: 200)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 5)]
     #[Groups('read')]
+    #[ORM\Column(length: 100)]
     private ?string $zipcode = null;
 
-    #[ORM\Column(length: 5)]
-    private ?string $insee_code = null;
 
     #[ORM\Column]
+    #[Groups('read')]
     private ?string $latitude = null;
 
     #[ORM\Column]
+    #[Groups('read')]
     private ?string $longitude = null;
 
     #[ORM\Column(length: 200)]
     #[Groups('read')]
     private ?string $label = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cities')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Department $department = null;
-
     #[ORM\OneToMany(mappedBy: 'City', targetEntity: Offer::class)]
     private Collection $offers;
+
+    #[ORM\Column(length: 2)]
+    #[Groups('read')]
+    private ?string $departmentNumber = null;
+
+    #[ORM\Column(length: 10)]
+    #[Groups('read')]
+    private ?int $population = null;
 
     public function __construct()
     {
@@ -91,17 +98,6 @@ class City
         return $this;
     }
 
-    public function getInseeCode(): ?string
-    {
-        return $this->insee_code;
-    }
-
-    public function setInseeCode(string $insee_code): self
-    {
-        $this->insee_code = $insee_code;
-
-        return $this;
-    }
 
     public function getLatitude(): ?string
     {
@@ -139,18 +135,6 @@ class City
         return $this;
     }
 
-    public function getDepartment(): ?Department
-    {
-        return $this->department;
-    }
-
-    public function setDepartment(?Department $department): self
-    {
-        $this->department = $department;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Offer>
      */
@@ -177,6 +161,30 @@ class City
                 $offer->setCity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDepartmentNumber(): ?string
+    {
+        return $this->departmentNumber;
+    }
+
+    public function setDepartmentNumber(string $departmentNumber): self
+    {
+        $this->departmentNumber = $departmentNumber;
+
+        return $this;
+    }
+
+    public function getPopulation(): ?int
+    {
+        return $this->population;
+    }
+
+    public function setPopulation(int $population): self
+    {
+        $this->population = $population;
 
         return $this;
     }

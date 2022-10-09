@@ -3,5 +3,4 @@ api_platform:
     type: api_platform
     prefix: /api
     defaults:
-        pagination_enabled: false
         pagination_items_per_page: 30

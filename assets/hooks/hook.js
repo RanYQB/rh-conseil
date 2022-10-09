@@ -1,6 +1,7 @@
 import {useCallback, useState} from "react";
 
-export function useFetch (url){
+export function useFetchOffers (url){
+/*
     const [loading, setLoading] = useState(false)
     const [items, setItems] = useState([])
     const load = useCallback(async ()=>{
@@ -20,4 +21,5 @@ export function useFetch (url){
     }, [url])
     return {items, load, loading}
 
+*/
 }

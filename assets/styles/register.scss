@@ -1,0 +1,35 @@
+.form-container {
+  background-color: hsla(0, 0%, 100%, .92);
+  border: 1px solid hsla(0, 0%, 100%, .18);
+  border-radius: 5px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, .37);
+  padding: 3rem 2rem;
+  width: 27vw;
+  margin: auto;
+  top: 50vh;
+  position: relative;
+  transform: translateY(-50%);
+
+  form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  h1{
+    text-align: center;
+    font-size: 1.6rem;
+    color: #21325E;
+  }
+}
+
+div:has(.role-choice){
+  display: flex;
+  flex-direction: row;
+}
+
+.btn-new-account{
+  background-color: #F1D00A;
+}
