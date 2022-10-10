@@ -50,6 +50,17 @@ class RecruiterRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function showActive(){
+        $query = $this->createQueryBuilder('r');
+
+        $query->select('r', 'u')
+            ->innerJoin('r.user', 'u')
+            ->where('u.active = 1')
+            ->orderBy('r.name');
+
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Recruiter[] Returns an array of Recruiter objects
 //     */

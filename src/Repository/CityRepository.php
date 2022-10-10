@@ -39,6 +39,16 @@ class CityRepository extends ServiceEntityRepository
         }
     }
 
+    public function showBigCities(){
+        $query = $this->createQueryBuilder('c');
+
+        $query->select('c')
+            ->where('c.population > 100000')
+            ->orderBy('c.population');
+
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return City[] Returns an array of City objects
 //     */
