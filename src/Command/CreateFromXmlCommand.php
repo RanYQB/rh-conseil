@@ -36,7 +36,6 @@ class CreateFromXmlCommand extends Command
         $this->dataDirectory = $dataDirectory;
         $this->entityManager = $entityManager;
         $this->cityRepository = $cityRepository;
-
     }
 
     protected function configure(): void
@@ -58,20 +57,15 @@ class CreateFromXmlCommand extends Command
     private function getDataFromFile(): array
     {
         $file = $this->dataDirectory . 'villes_france.xml';
-
         $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
-
         $normalizer = new ObjectNormalizer();
-
         $encoder = new XmlEncoder();
-
         $serializer = new Serializer([$normalizer], [$encoder]);
 
         /**
          * @var string $fileString
          * */
         $fileString = file_get_contents($file);
-
         $data = $serializer->decode($fileString, $fileExtension);
 
         return $data["database"]["table"];
@@ -80,19 +74,14 @@ class CreateFromXmlCommand extends Command
 
     private function createCities(): void
     {
-
                 $this->io->section('Import des données');
-
                 $citiesCreated = 0;
-
                 foreach($this->getDataFromFile() as $row)
                 {
                     if( !empty($row["column"][2]["#"])){
                         $city = $this->cityRepository->findOneBy([
                             'label' => $row["column"][2]["#"]
                         ]);
-
-
                         if(!$city){
                             $city = new City();
                             $city->setName($row["column"][5]["#"]);
@@ -104,11 +93,9 @@ class CreateFromXmlCommand extends Command
                             $city->setPopulation($row["column"][14]["#"]);
 
                             $this->entityManager->persist($city);
-
                             $citiesCreated++;
                         }
                     }
-
                 }
                 $this->entityManager->flush();
                 $this->io->success("{$citiesCreated} VILLES CREES.");

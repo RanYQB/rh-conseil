@@ -1,15 +1,12 @@
 
-
-// any CSS you import will output into a single css file (app.scss in this case)
-import './styles/app.scss';
-import './styles/home.scss';
-import './styles/register.scss';
-// start the Stimulus application
-import './bootstrap';
 import './components/searchOffers.jsx';
-import './components/Offers.jsx';
-
-const $ = require('jquery');
-
-global.$ = global.jQuery = $;
-
+import './components/offers.jsx';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import './style/app.scss'
+import './style/RegistrationFormPage.scss'
+import './style/PendingModal.scss'
+import './pictures/rh-logo.png'
+import './style/CandidateProfile.scss'

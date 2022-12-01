@@ -23,24 +23,10 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'email',
+                'label' => 'Adresse mail',
                 'label_attr' => [
                     'class' => 'col-sm-2 col-form-label',
                 ],
-            ])
-            ->add('role', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'role-choice'
-                ],
-                'label' => 'Vous êtes...',
-                'mapped' => false,
-                'expanded' => true,
-                'multiple' => false,
-                'choices' => [
-                    'candidat' => 'ROLE_CANDIDATE',
-                    'recruteur' => 'ROLE_RECRUITER',
-                ],
-
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

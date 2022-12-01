@@ -47,10 +47,36 @@ class CandidateController extends AbstractController
 
 
 
+    #[Route('/profil', name: '_profile')]
+    public function getProfile(CandidateRepository $candidateRepository): Response
+    {
+        $user = $this->getUser();
+
+        if ($this->isGranted('ROLE_CANDIDATE')) {
+
+            $candidate = $candidateRepository->findOneBy(['user' => $user]);
+
+            if (!$candidate) {
+                return $this->redirectToRoute('app_candidate_complete_profile');
+            }
+
+            if($candidate->getUser()->isActive() == false){
+                return $this->redirectToRoute('app_user_pending');
+            }
+        }
+
+        return $this->render('candidate/candidate.html.twig', [
+            'candidate' => $candidate,
+        ]);
+    }
+
+
+
+
+
     #[Route('/completer-profil', name: '_complete_profile')]
     public function completeProfile(Request $request , FileUploader $fileUploader, EntityManagerInterface $entityManager, CandidateRepository $candidateRepository): Response
     {
-
         if ($this->isGranted('ROLE_CANDIDATE')) {
             $user = $this->getUser();
 
@@ -59,8 +85,6 @@ class CandidateController extends AbstractController
             if ($candidate) {
                 return $this->redirectToRoute('app_candidate');
             }
-
-
             $candidate = new Candidate();
             $resume = new Resume();
             $items = ['candidate' => $candidate, 'resume' => $resume];
@@ -79,7 +103,6 @@ class CandidateController extends AbstractController
                     $resumeFileName = $fileUploader->upload($resumeFile);
                     $resume->setName($resumeFileName);
                     $resume->setPath('uploads/resumes/' . $resumeFileName);
-
                 }
 
                 $candidate->setUser($user);

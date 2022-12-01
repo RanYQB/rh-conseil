@@ -1,0 +1,139 @@
+#RegistrationFormPage, #LoginFormPage{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+.RegistrationFormLogo, .LoginFormLogo{
+  width: 60px;
+}
+
+.RegistrationFormContainer, .LoginFormContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2em 0;
+  max-height: 100%;
+  width: 100%;
+
+}
+
+.RegistrationForm, .LoginForm{
+  background-color: white;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  height: 100%;
+  width: 80%;
+}
+
+.RegistrationFormContent, .LoginFormContent{
+  display: flex;
+  flex-direction: column;
+}
+
+.RegistrationFormInputs, .LoginFormInputs{
+
+  div{
+    margin-bottom: 1.3em;
+  }
+
+  div:nth-child(-n+2) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+
+.RegistrationFormInputs{
+  &:last-child{
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.RegistrationFormTitles, .LoginFormTitles{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+    h2{
+      margin-bottom: 0;
+      font-weight: 600;
+    }
+}
+
+
+  .RegistrationFormToLogin, .LoginFormToRegistration{
+    font-size: .9em;
+
+
+    .RegistrationFormRedirect, .LoginFormRedirect{
+      color: #0288d1;
+    }
+  }
+
+  input{
+    line-height: 2.3em;
+    border: 1px solid lightgray;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    margin-top: .5em;
+    border-radius: 6px;
+
+
+      &:focus {
+      outline: none !important;
+      border: 1px solid #0288d1;
+
+    }
+  }
+
+  label{
+    font-size: .9em;
+    font-weight: 400;
+  }
+
+.FormSubmit{
+  height: 2.5em;
+  width: 100%;
+  font-size: .9em;
+  background-color: #0288d1;
+  border: solid 1px #047abb;
+  color: white;
+  border-radius: 6px;
+
+  &:hover{
+    background-color: #01579b;
+  }
+}
+
+input[type=checkbox] {
+  accent-color: #0288d1;
+}
+
+@media screen and (min-width: 688px ){
+  .RegistrationForm, .LoginForm{
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 992px){
+  .RegistrationForm, .LoginForm{
+    width: 400px;
+  }
+}
+
+
+/*
+@media screen and(min-width:1312px){
+
+}
+
+*/
+

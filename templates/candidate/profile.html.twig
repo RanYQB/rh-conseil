@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RH Conseil - Accueil candidat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('navbar') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('navbar') }}
+{% endblock %}
+
+{% block body %}
+    {% include 'partials/_homeNav.html.twig' %}
+    <div class="CandidateProfilePage">
+        <div class="CandidateProfilePageContent">
+            <div class="CandidateProfileCard"></div>
+            <div >
+                <div class="CandidateProfileCard"></div>
+                <div class="CandidateProfileCard"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

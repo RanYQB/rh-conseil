@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+
 {% endblock %}
 
         {% block javascripts %}
@@ -11,22 +12,37 @@
         {% endblock %}
 
 {% block body %}
-    <div id="new-account-page">
+    <div id="RegistrationFormPage">
 
-        <div class="form-container">
-            <h1>Créer un compte</h1>
-
-            {{ form_start(registrationForm) }}
-                {{ form_row(registrationForm.role) }}
-            <div class="form-inputs-register">
-                {{ form_row(registrationForm.email) }}
-                {{ form_row(registrationForm.plainPassword, {
-                    label: 'Mot de passe'
-                }) }}
-                {{ form_row(registrationForm.agreeTerms) }}
+        <div class="RegistrationFormContainer">
+            <div class="RegistrationFormTitles">
+                <a href="{{ path('app_home') }}"><img src="{{ asset('build/images/rh-logo.f9ada5be.png') }}" alt="Rh Conseil" class="RegistrationFormLogo"></a>
+                <h2>Créer un compte</h2>
+                <p class="RegistrationFormToLogin">Ou <a href="{{ path('app_login') }}" class="RegistrationFormRedirect">connectez-vous</a></p>
             </div>
-                <button type="submit" class="btn btn-new-account">Créer un compte</button>
-            {{ form_end(registrationForm) }}
+            <div class="RegistrationForm">
+                <div class="RegistrationFormContent">
+                {{ form_start(registrationForm) }}
+                <div class="RegistrationFormInputs">
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.plainPassword, {
+                        label: 'Mot de passe'
+                    }) }}
+                    {{ form_row(registrationForm.agreeTerms) }}
+                </div>
+                    <button type="submit" class="FormSubmit">Créer un compte</button>
+                {{ form_end(registrationForm) }}
+                </div>
+                {#
+                <div class="RegistrationFormSocials">
+                    <div>
+                        <div></div>
+                        <div><span>Ou continuer avec</span></div>
+                        <div></div>
+                    </div>
+                </div>
+                #}
+            </div>
         </div>
     </div>
 {% endblock %}

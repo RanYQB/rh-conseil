@@ -1,14 +1,41 @@
-<nav id="home-nav">
-    <a id="home-page-logo" href="#"><img src="{{ asset('logo-rh.png') }}" alt="logo">
-        Conseil</a>
+{#  <nav id="home-nav">
     <div>
         <ul id="home-page-nav-ul">
             <li class="create-account-link">
-                <a href="{{ path('app_register') }}">Créer un compte</a>
+                <a href="{{ path('app_register_candidate') }}">Créer un compte</a>
             </li>
             <li class="login-link">
                 <a href="{{ path('app_login') }}">Se connecter</a>
             </li>
             </ul>
         </div>
+</nav>
+#}
+<nav class="navbar-sliding">
+    <div>
+        <h2 id="logo"><img src="{{ asset('build/images/rh-logo.f9ada5be.png') }}"></h2>
+    </div>
+    <div class="menu-list">
+        <div class="close-btn">X</div>
+        <ul class="menu-nav">
+            {% if is_granted('ROLE_CANDIDATE') %}
+                <li ><a href="#" class="nav-li">Mes offres</a></li>
+                <li ><a href="#" class="nav-li">Mes messages</a></li>
+                <li ><a href="{{ path('app_candidate_profile') }}" class="nav-li">Mon profil</a></li>
+                <li ><a href="{{ path('app_logout') }}"  class="nav-li">Se déconnecter</a></li>
+            {% elseif is_granted('ROLE_RECRUITER') %}
+                <li ><a href="#" class="nav-li">Mes offres</a></li>
+                <li ><a href="#" class="nav-li">Mes messages</a></li>
+                <li ><a href="{{ path('app_candidate_profile') }}" class="nav-li">Mon profil</a></li>
+                <li ><a href="{{ path('app_logout') }}" class="nav-li">Se déconnecter</a></li>
+            {% elseif is_granted('ROLE_CONSULTANT') %}
+            {% endif %}
+        </ul>
+    </div>
+    <div class="shadow"></div>
+    <div class="burger-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </div>
 </nav>

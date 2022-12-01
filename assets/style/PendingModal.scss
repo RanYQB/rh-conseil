@@ -1,0 +1,38 @@
+.UserPendingPage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.UserPendingModal{
+
+  background-color: white;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  height: 80%;
+  width: 80%;
+
+  p{
+    text-align: justify;
+
+
+    a{
+      color: #0288d1;
+
+      &:hover{
+        color: #0c4a6e;
+      }
+    }
+  }
+
+}
+
+@media screen and (min-width: 688px ){
+  .UserPendingModal{
+    width: 450px;
+    height: 350px;
+  }
+}

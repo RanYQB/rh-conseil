@@ -2,10 +2,31 @@
 
 {% block title %}RH Conseil - Compte en attente de validation{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+
+
 {% block body %}
 
-<div class="example-wrapper">
-    <h1>En attente</h1>
-    <p>Votre compte est en attente de validation par un de nos consultants.</p>
+<div class="UserPendingPage">
+    <div class="UserPendingModal">
+        <div class="RegistrationFormTitles">
+            <a href="{{ path('app_home') }}"><img src="{{ asset('build/images/rh-logo.f9ada5be.png') }}" alt="Rh Conseil" class="RegistrationFormLogo"></a>
+            <h2>Compte en attente de validation</h2>
+            <p class="RegistrationFormToLogin"> <a href="{{ path('app_logout') }}" class="RegistrationFormRedirect">se déconnecter</a></p>
+        </div>
+        <p>Bonne nouvelle ! Votre compte a bien été créé. </p>
+        <p>Un de nos consultants se charge de vérifier la validité des informations transmises.</p>
+        <p>Une fois votre adresse mail validée, vous pourrez vous connecter sur la plateforme, découvrir nos entreprises partenaires et transmettre des candidatures !</p>
+        <p>En attendant, <a href="{{ path('app_home') }}">découvrez nos offres d'emploi</a>.</p>
+
+    </div>
 </div>
 {% endblock %}

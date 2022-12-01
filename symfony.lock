@@ -60,6 +60,15 @@
             "./migrations/.gitignore"
         ]
     },
+    "easycorp/easyadmin-bundle": {
+        "version": "4.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "b131e6cbfe1b898a508987851963fff485986285"
+        }
+    },
     "nelmio/cors-bundle": {
         "version": "2.2",
         "recipe": {
@@ -210,6 +219,9 @@
         "files": [
             "./config/routes/ux_autocomplete.yaml"
         ]
+    },
+    "symfony/ux-react": {
+        "version": "v2.6.0"
     },
     "symfony/validator": {
         "version": "6.1",

@@ -6,6 +6,7 @@ export function usePaginatedFetch(url){
     const [items, setItems] = useState([])
     const [count, setCount] = useState(0)
     const [next, setNext] = useState(null)
+
     const load = useCallback(async ()=>{
         setLoading(true)
         const response = await fetch(next || url, {

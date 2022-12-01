@@ -14,8 +14,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/creer-compte', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    #[Route('/creer-compte/candidat', name: 'app_register_candidate')]
+    public function registerCandidate(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -30,12 +30,38 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setActive(false);
-            $role = $form->get('role')->getData();
-            if($role === 'ROLE_RECRUITER'){
-                $user->setRoles(array('ROLE_RECRUITER'));
-            } elseif ($role === 'ROLE_CANDIDATE'){
-                $user->setRoles(array('ROLE_CANDIDATE'));
-            }
+            $user->setRoles(array('ROLE_CANDIDATE'));
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
+            $this->addFlash('success', 'Votre compte a bien été créé.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/creer-compte/recruteur', name: 'app_register_recruiter')]
+    public function registerRecruiter(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    {
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $user->setActive(false);
+
+            $user->setRoles(array('ROLE_RECRUITER'));
+
 
             $entityManager->persist($user);
             $entityManager->flush();

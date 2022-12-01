@@ -119,7 +119,10 @@ class ConsultantController extends AbstractController
 
 
     #[Route('/envoyer-candidature/{id}', name: '_validate_application')]
-    public function validateApplication(int $id, MailerInterface $mailer, ApplicationRepository $applicationRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function validateApplication(int $id, MailerInterface $mailer,
+         ApplicationRepository $applicationRepository,
+         Request $request,
+         EntityManagerInterface $entityManager): Response
     {
         if ($this->isGranted('ROLE_CONSULTANT')) {
 
@@ -130,9 +133,11 @@ class ConsultantController extends AbstractController
             $entityManager->flush();
 
             $email = (new TemplatedEmail())
-                ->from(new Address('consultant1@rhconseil.test', 'RH Conseil'))
+                ->from(new Address('consultant1@rhconseil.test',
+                    'RH Conseil'))
                 ->to($application->getCandidate()->getUser()->getEmail())
-                ->subject('Votre candidature au poste de ' . $application->getOffer()->getTitle())
+                ->subject('Votre candidature au poste de '
+                    . $application->getOffer()->getTitle())
                 ->htmlTemplate('email/application_sent_email.html.twig')
                 ->context([
                     'candidate'=> $application->getCandidate(),
@@ -141,17 +146,19 @@ class ConsultantController extends AbstractController
             $mailer->send($email);
 
             $applicationEmail = (new TemplatedEmail())
-                ->from(new Address('consultant1@rhconseil.test', 'RH Conseil'))
+                ->from(new Address('consultant1@rhconseil.test',
+                    'RH Conseil'))
                 ->to($application->getOffer()->getRecruiter()->getUser()->getEmail())
-                ->attachFromPath($application->getCandidate()->getResume()->getPath(), 'CV-'.$application->getCandidate()->getLastname())
-                ->subject('Vous avez reçu une nouvelle candidature pour l\'offre : ' . $application->getOffer()->getTitle())
+                ->attachFromPath($application->getCandidate()->getResume()->getPath(),
+                    'CV-'.$application->getCandidate()->getLastname())
+                ->subject('Vous avez reçu une nouvelle candidature pour l\'offre : '
+                    . $application->getOffer()->getTitle())
                 ->htmlTemplate('email/application_email.html.twig')
                 ->context([
                     'candidate'=> $application->getCandidate(),
                     'offer' => $application->getOffer(),
                 ]);
             $mailer->send($applicationEmail);
-
 
         }
 
